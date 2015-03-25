@@ -123,4 +123,30 @@ object JdbcTestController extends Controller {
     }
     Ok(Json.toJson(result))
   }
+
+  case class DeptStat(deptNo: String, deptName: String, avgSalary: Double, totalEmployees: Int)
+  implicit val deptStatFormat = Json.format[DeptStat]
+  val bigParser = (str("dept_no") ~ str("dept_name") ~ double("avg_salary") ~ int("num_emp")).map{
+    case deptNo ~ deptName ~ avgSalary ~ numEmp => DeptStat(deptNo, deptName, avgSalary, numEmp)
+  }
+
+  val bigSql = SQL"""SELECT d.dept_no, d.dept_name, AVG(s.salary) AS avg_salary, COUNT(*) AS num_emp FROM employees e
+         INNER JOIN dept_emp de USING(emp_no) INNER JOIN departments d USING(dept_no)
+         INNER JOIN (SELECT emp_no, MAX(salary) AS salary FROM salaries GROUP BY emp_no) s ON e.emp_no = s.emp_no
+         GROUP BY de.dept_no ORDER BY avg_salary DESC
+    """
+  def syncBigQuery = Action{ request =>
+    DB.withConnection { implicit c =>
+      Ok(Json.toJson(bigSql.as(bigParser.*)))
+    }
+  }
+
+  def asyncBigQuery = Action.async{ request =>
+    Future{
+      DB.withConnection { implicit c =>
+        Ok(Json.toJson(bigSql.as(bigParser.*)))
+      }
+    }
+  }
+
 }

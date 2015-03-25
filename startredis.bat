@@ -1,2 +1,2 @@
 cd /d "%~dp0"
-redis-server
+redis-server -dir db/redis

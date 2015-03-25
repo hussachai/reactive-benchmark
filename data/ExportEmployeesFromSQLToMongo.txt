@@ -1,0 +1,36 @@
+SELECT *
+FROM employees
+INTO OUTFILE '/tmp/employees.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+
+Add the following line to the first line in the file
+"empNo","birthdate","firstName","lastName","gender","hireDate"
+
+
+mongoimport --db employees --type csv --headerline --file /tmp/employees.csv
+
+> use employees
+switched to db employees
+> show collections
+employees
+system.indexes
+> db.employees.findOne()
+{
+        "_id" : ObjectId("551242a52cf6b475af40a93d"),
+        "empNo" : 10001,
+        "birthdate" : "1953-09-02",
+        "firstName" : "Georgi",
+        "lastName" : "Facello",
+        "gender" : "M",
+        "hireDate" : "1986-06-26"
+}
+>
+
+
+db.employees.count({'gender':'M'})
+db.employees.count()
+db.employees.count({'firstName': {$regex: '^H.*'}})
+db.employees.find({'firstName': {$regex: '^[A-C].*'}}).sort({'firstName':1}).limit(5).pretty()
