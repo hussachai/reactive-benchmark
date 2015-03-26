@@ -10,14 +10,14 @@ POST        /publish/:channel               controllers.PubsubController.publish
 GET         /test/jdbc/async1/              controllers.JdbcTestController.async1
 GET         /test/jdbc/async2/              controllers.JdbcTestController.async2
 GET         /test/jdbc/sync/                controllers.JdbcTestController.sync
-GET         /test/jdbc/asyncBigQuery        controllers.JdbcTestController.asyncBigQuery
-GET         /test/jdbc/syncBigQuery         controllers.JdbcTestController.syncBigQuery
+GET         /test/jdbc/asyncBigQuery/       controllers.JdbcTestController.asyncBigQuery
+GET         /test/jdbc/syncBigQuery/        controllers.JdbcTestController.syncBigQuery
 
-GET         /test/mongo/asyncNative1        controllers.MongoTestController.asyncNative1
-GET         /test/mongo/asyncNative2        controllers.MongoTestController.asyncNative2
-GET         /test/mongo/asyncFuture1        controllers.MongoTestController.asyncFuture1
-GET         /test/mongo/asyncFuture2        controllers.MongoTestController.asyncFuture2
-GET         /test/mongo/sync                controllers.MongoTestController.sync
+GET         /test/mongo/asyncNative1/       controllers.MongoTestController.asyncNative1
+GET         /test/mongo/asyncNative2/       controllers.MongoTestController.asyncNative2
+GET         /test/mongo/asyncFuture1/       controllers.MongoTestController.asyncFuture1
+GET         /test/mongo/asyncFuture2/       controllers.MongoTestController.asyncFuture2
+GET         /test/mongo/sync/               controllers.MongoTestController.sync
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                   controllers.Assets.at(path="/public", file)
